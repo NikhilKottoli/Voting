@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import './Code.css';
 
-
-const Navbar = () => (
-    <nav className="navbar">
-      <div className="container">
-        <span className="logo">VoteNow</span>
-        <div className="nav-links">
-          <a href="/">Home</a>
-        </div>
-      </div>
-    </nav>
-  );
-
 const EnterCode = () => {
   const [code, setCode] = useState('');
 
@@ -26,7 +14,6 @@ const EnterCode = () => {
 
   return (
     <div className="enter-code-page">
-      <Navbar />
       <main className="main-content">
         <div className="code-form-container">
           <h2>Enter Event Code</h2>
@@ -45,11 +32,6 @@ const EnterCode = () => {
           </form>
         </div>
       </main>
-      <footer className="footer">
-        <div className="container">
-          <p>&copy; 2024 VoteNow. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 };

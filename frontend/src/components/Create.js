@@ -28,14 +28,6 @@ const CreatePoll = () => {
 
   return (
     <div className="create-poll-page">
-      <header className="header">
-        <div className="container">
-          <h1 className="logo text-white">VoteNow</h1>
-          <nav>
-            <Link to="/" className="nav-link">Home</Link>
-          </nav>
-        </div>
-      </header>
       <main className="main-content">
         <div className="poll-container">
           <h2 className='font-bold text-2xl'>Create a New Poll</h2>
@@ -60,11 +52,6 @@ const CreatePoll = () => {
           )}
         </div>
       </main>
-      <footer className="footer">
-        <div className="container flex justify-center">
-          <p>&copy; 2024 VoteNow. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 };

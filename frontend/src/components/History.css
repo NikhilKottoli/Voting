@@ -1,14 +1,17 @@
-/* EnterCode.css */
+/* History.css */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f7fafc;
   }
   
-  .enter-code-page {
-    min-height: 81vh;
+  .history-page {
+    height: 81vh;
     display: flex;
     flex-direction: column;
+  }
+  .MainHeading{
+    font: bold 2.5rem Arial;
   }
   
   .container {
@@ -47,58 +50,50 @@ body {
   .main-content {
     flex-grow: 1;
     display: flex;
-    align-items: center;
     justify-content: center;
     padding: 2rem 0;
   }
   
-  .code-form-container {
+  .history-container {
     background-color: white;
     border-radius: 8px;
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 800px;
     width: 100%;
   }
   
   h2 {
     color: #2d3748;
     margin-top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  p {
-    color: #4a5568;
     margin-bottom: 1.5rem;
+    text-align: center;
   }
   
-  .code-form {
-    display: flex;
-    flex-direction: column;
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
   }
   
-  .code-input {
-    font-size: 1.25rem;
-    padding: 0.5rem;
-    border: 2px solid #4299e1;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+  .history-table th,
+  .history-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
   }
   
-  .submit-btn {
+  .history-table th {
     background-color: #4299e1;
     color: white;
-    border: none;
-    padding: 0.75rem;
-    font-size: 1rem;
     font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
   }
   
-  .submit-btn:hover {
-    background-color: #3182ce;
+  .history-table tr:nth-child(even) {
+    background-color: #f7fafc;
+  }
+  
+  .history-table tr:hover {
+    background-color: #e2e8f0;
   }
   
   .footer {
