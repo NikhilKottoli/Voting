@@ -1,10 +1,10 @@
-#Process to Setup.
+# Process to Setup.
  Run Command
  ```
  git clone https://github.com/alphaplayerofdooms/Voting.git
  ```
 
-#FRONTEND SETUP:
+# FRONTEND SETUP:
 1.Go to Frontend directory
 ```
 cd frontend
@@ -19,7 +19,7 @@ npm start
 ```
 
 
-#Backend SETUP:
+# Backend SETUP:
 1.Go to backend directory
 ```
 cd backend
@@ -34,6 +34,6 @@ npm run dev
 ```
 
 
-#GO TO http://localhost:3000 to open the application
+# GO TO http://localhost:3000 to open the application
 
 
