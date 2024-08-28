@@ -22,6 +22,10 @@ const Home = () => {
         navigate('/entercode');
     }
 
+    const gotoCreatePoll = () => {
+        navigate('/create');
+    }
+
   return (
     <div className="app">
       <Navbar />
@@ -31,7 +35,7 @@ const Home = () => {
           <p>Make your voice heard or create your own poll</p>
           <div className="button-group">
             <button className="btn btn-primary"onClick={gotoVoteNow} >Vote Now</button>
-            <button className="btn btn-secondary">Create Poll</button>
+            <button className="btn btn-secondary" onClick={gotoCreatePoll}>Create Poll</button>
           </div>
         </div>
       </main>

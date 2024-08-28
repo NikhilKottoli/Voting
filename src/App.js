@@ -4,6 +4,7 @@ import './App.css';
 import './index.css';
 import Home from './components/Home';
 import EnterCode from './components/Code';
+import CreatePoll from './components/Create';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/entercode" element={<EnterCode />} />
+          <Route path="/create" element={<CreatePoll />} />
         </Routes>
       </div>
     </Router>
