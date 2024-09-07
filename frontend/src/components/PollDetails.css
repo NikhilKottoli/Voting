@@ -95,3 +95,33 @@
   text-align: center;
   margin-top: 2rem;
 }
+
+.status-container {
+  cursor: pointer;
+  position: relative; /* Needed for tooltip positioning */
+}
+
+.status-container:hover {
+  color: #2b6cb0; /* Change color on hover */
+}
+
+.status-container::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -1.5rem; /* Adjust based on your design */
+  left: 0;
+  background: #333;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.status-container:hover::after {
+  visibility: visible;
+  opacity: 1;
+}

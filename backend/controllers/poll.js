@@ -71,7 +71,7 @@ const deletePoll = async (req, res) => {
 
 const stopVoting = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id } = req.query;
         const poll = await Poll.findById(id);
         if (poll) {
             poll.votingOn =false
@@ -89,5 +89,6 @@ module.exports = {
     getPolls,
     getPoll,
     updatePoll,
-    deletePoll
+    deletePoll,
+    stopVoting
 }

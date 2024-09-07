@@ -19,7 +19,6 @@ const PollDetails = () => {
           const response = await axios.get('http://localhost:4000/vote/getstats', {
             params: { id: poll._id }
           });
-          console.log(response.data);
           const stats = response.data.stats[0];
           setAvgRating(stats.averageMarks);
           setTotalVotes(stats.totalVotes);
@@ -33,7 +32,6 @@ const PollDetails = () => {
           const response = await axios.get('http://localhost:4000/vote/getvotes', {
             params: { id: poll._id }
           });
-          console.log(response.data);
           setFeedbacks(response.data.votes);
         } catch (error) {
           console.error('Error fetching votes:', error);
@@ -49,6 +47,18 @@ const PollDetails = () => {
     return <div className="error">Poll not found</div>;
   }
 
+  const ChangeStatus = async () => {
+    try {
+      const response = await axios.put('http://localhost:4000/poll/stopvoting', null, {
+        params: { id: poll._id }
+      });
+      navigate(0);
+      console.log('Status changed:', response.data);
+    } catch (error) {
+      console.error('Error changing status:', error);
+    }
+  }
+
   return (
     <div className="poll-details-page">
       <div className="poll-details-container">
@@ -58,7 +68,16 @@ const PollDetails = () => {
           <p><strong>Code:</strong> {poll.code}</p>
           <p><strong>Created:</strong> {new Date(poll.createdAt).toLocaleString()}</p>
           <p><strong>Last Updated:</strong> {new Date(poll.updatedAt).toLocaleString()}</p>
-          <p><strong>Status:</strong> <span className={poll.votingOn ? 'status-enabled' : 'status-disabled'}>{poll.votingOn ? "Enabled" : "Disabled"}</span></p>
+          <p 
+            onClick={ChangeStatus}
+            className="status-container"
+            data-tooltip={poll.votingOn ? 'Click to disable voting' : 'Poll Has Ended'}
+          >
+            <strong>Status:</strong> 
+            <span className={poll.votingOn ? 'status-enabled' : 'status-disabled'}>
+              {poll.votingOn ? "Enabled" : "Disabled"}
+            </span>
+          </p>
           <p><strong>Average Rating:</strong> {avgRating ? avgRating.toFixed(2) : 'N/A'}</p>
           <p><strong>Number of Voters:</strong> {totalVotes || 0}</p>
         </div>

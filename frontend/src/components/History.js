@@ -14,6 +14,7 @@ const History = () => {
       const response = await axios.get('http://localhost:4000/poll/getpolls');
       if (response.status === 200) {
         const fetchedPolls = response.data.polls;
+        console.log('Fetched polls:', fetchedPolls);
         setPolls(fetchedPolls);
         // Fetch votes after polls are fetched
         fetchVotes(fetchedPolls);
@@ -72,8 +73,13 @@ const History = () => {
             </thead>
             <tbody>
               {polls.length > 0 ? (
-                polls.map((poll) => (
-                  <tr key={poll._id} onClick={() => handlePollClick(poll)} className="poll-row">
+                [...polls].reverse().map((poll) => (
+                  <tr 
+                    key={poll._id} 
+                    onClick={() => handlePollClick(poll)} 
+                    className="poll-row" 
+                    style={poll.votingOn ? {backgroundColor: 'lightgreen'} : {}}
+                  >
                     <td>{poll.title}</td>
                     <td>{poll.code}</td>
                     <td>{new Date(poll.updatedAt).toLocaleDateString()}</td>
