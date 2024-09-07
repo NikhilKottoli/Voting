@@ -7,6 +7,7 @@ import EnterCode from './components/Code';
 import CreatePoll from './components/Create';
 import History from './components/History';
 import Navbar from './components/navbar/Navbar';
+import PollDetails from './components/PollDetails';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/entercode" element={<EnterCode />} />
           <Route path="/createpoll" element={<CreatePoll />} />
           <Route path="/history" element={<History />} />
+          <Route path="/polldetails" element={<PollDetails />} />
         </Routes>
       </div>
       <footer className="footer">

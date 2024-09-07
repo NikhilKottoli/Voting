@@ -40,7 +40,7 @@ const submitVote = async (req, res) => {
 
 const getVotes=async(req,res)=>{
     try{
-        const {id}=req.body;
+        const {id}=req.query;
         const poll=await Poll.findById(id);
         if(!poll){
             return res.status(404).json({error:'Poll not found'});
@@ -71,47 +71,55 @@ const avgMarks=async(req,res)=>{
     }
 }
 
-const getStatsofPoll=async(req,res)=>{
-    try{
-        const {id}=req.body;
-        const aggregation=[{
-            $match: {
-              pollId:new mongoose.Types.ObjectId(id)
-            }
-            },
-             {
-                $group: {
-                  _id: "$pollId",
-                  averageMarks: { $avg: "$marks" },
-                totalVotes:{$count:{}}
-                }
-              },
-             {
-            $lookup: {
-              from: "polls",
-              localField: "_id",
-              foreignField: "_id",
-              as: "data"
-            }},{
-            $addFields: {
-              pollInfo:{
-                $arrayElemAt:["$data",0]
-              }
-            }
-             },
-             {
-               $project: {
-                 data:0,
-                 _id:0
-               }
-             }
-            ];
-
-            const stats=await Vote.aggregate(aggregation);
-            return res.status(200).json({stats});
-    }catch(error){
-        res.status(500).json({error:error.message});
+const getStatsofPoll = async (req, res) => {
+    try {
+      const { id } = req.query; // Use req.query for GET request parameters
+  
+      const aggregation = [
+        {
+          $match: {
+            pollId: new mongoose.Types.ObjectId(id)
+          }
+        },
+        {
+          $group: {
+            _id: "$pollId",
+            averageMarks: { $avg: "$marks" },
+            totalVotes: { $sum: 1 } // Correctly count the number of votes
+          }
+        },
+        {
+          $lookup: {
+            from: "polls",
+            localField: "_id",
+            foreignField: "_id",
+            as: "data"
+          }
+        },
+        {
+          $unwind: "$data" // Flatten the array to access the poll data
+        },
+        {
+          $addFields: {
+            pollInfo: "$data"
+          }
+        },
+        {
+          $project: {
+            data: 0,
+            _id: 0 
+          }
+        }
+      ];
+  
+      const stats = await Vote.aggregate(aggregation);
+      if (stats.length === 0) {
+        return res.status(404).json({ error: 'No statistics found for the given poll.' });
+      }
+      res.status(200).json({ stats });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-}
+  };  
 
 module.exports={findPollByCode,submitVote,getVotes,getStatsofPoll,avgMarks};

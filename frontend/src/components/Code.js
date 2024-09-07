@@ -81,7 +81,7 @@ const EnterCode = () => {
                   />
                 </div>
                 <textarea
-                  value={feedback}
+                  value={feedback || ''}
                   onChange={(e) => setFeedback(e.target.value)}
                   placeholder="Enter Feedback"
                   className="feedback-input"

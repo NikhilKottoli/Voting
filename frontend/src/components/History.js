@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './History.css';
 import axios from 'axios';
 
 const History = () => {
   const [polls, setPolls] = useState([]);
   const [votes, setVotes] = useState({});
+  const navigate = useNavigate();
 
   // Function to fetch past polls
   const getPastPolls = async () => {
@@ -49,6 +51,10 @@ const History = () => {
     getPastPolls();
   }, []);
 
+  const handlePollClick = (poll) => {
+    navigate(`/polldetails`, { state: { poll, avgRating: votes[poll._id] } });
+  };
+
   return (
     <div className="history-page">
       <main className="main-content">
@@ -59,7 +65,6 @@ const History = () => {
               <tr>
                 <th>Session Title</th>
                 <th>Code</th>
-                <th>Voters</th>
                 <th>Date</th>
                 <th>Rating</th>
                 <th>Status</th>
@@ -68,12 +73,11 @@ const History = () => {
             <tbody>
               {polls.length > 0 ? (
                 polls.map((poll) => (
-                  <tr key={poll._id}>
+                  <tr key={poll._id} onClick={() => handlePollClick(poll)} className="poll-row">
                     <td>{poll.title}</td>
                     <td>{poll.code}</td>
-                    <td></td>
                     <td>{new Date(poll.updatedAt).toLocaleDateString()}</td>
-                    <td>{votes[poll._id] || 'Loading...'}</td>
+                    <td>{votes[poll._id] ? votes[poll._id].toFixed(2) : 'Loading...'}</td>
                     <td style={{ fontWeight: 'bold', color: poll.votingOn ? 'green' : 'red' }}>
                       {poll.votingOn ? "Enabled" : "Disabled"}
                     </td>
