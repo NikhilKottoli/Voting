@@ -2,22 +2,41 @@ const Vote = require('../models/votes');
 const Poll = require('../models/poll'); 
 const mongoose=require('mongoose');
 
-const giveVotes=async(req,res)=>{
-    try{
-        const {code,marks,feedback}=req.body;
-        const pollId=await Poll.findOne({code});
-        if(String(pollId.votingOn)===String(false)){
-            return res.status(400).json({error:'Voting is closed for this poll'});
+const findPollByCode = async (req, res) => {
+    try {
+        const { code } = req.query; // Use req.query for GET parameters
+        const poll = await Poll.findOne({ code });
+        
+        if (!poll) {
+            return res.status(404).json({ error: 'Poll not found' });
         }
-        if(!pollId){
-            return res.status(404).json({error:'Poll not found'});
+
+        if (poll.votingOn === false) {
+            return res.status(400).json({ error: 'Voting is closed for this poll' });
         }
-        const vote=await Vote.create({pollId:pollId._id,marks,feedback});
-        res.status(201).json({vote});
-    }catch(error){
-        res.status(500).json({error:error.message});
+
+        return res.status(200).json({ poll });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-}
+};
+
+const submitVote = async (req, res) => {
+    try {
+        const { pollId, marks, feedback } = req.body;
+
+        const poll = await Poll.findById(pollId);
+        if (!poll) {
+            return res.status(404).json({ error: 'Poll not found' });
+        }
+
+        const vote = await Vote.create({ pollId: poll._id, marks, feedback });
+        return res.status(201).json({ vote });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 const getVotes=async(req,res)=>{
     try{
@@ -35,7 +54,7 @@ const getVotes=async(req,res)=>{
 
 const avgMarks=async(req,res)=>{
     try{
-        const {id}=req.body;
+        const {id}=req.query;
         const poll=await Poll.findById(id);
         if(!poll){
             return res.status(404).json({error:'Poll not found'});
@@ -95,4 +114,4 @@ const getStatsofPoll=async(req,res)=>{
     }
 }
 
-module.exports={giveVotes,getVotes,getStatsofPoll};
+module.exports={findPollByCode,submitVote,getVotes,getStatsofPoll,avgMarks};

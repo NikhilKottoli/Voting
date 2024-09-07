@@ -6,7 +6,7 @@ const {createPoll,
     updatePoll,
     deletePoll}=require('../controllers/poll');
 
-router.get('/polls',getPolls);
+router.get('/getpolls',getPolls);
 router.get('/pollbyId',getPoll);    
 router.post('/createpoll',createPoll);
 router.put('/updatepoll',updatePoll);
