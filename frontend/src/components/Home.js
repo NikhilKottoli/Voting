@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-
-
 const Home = () => {
     const navigate = useNavigate();
 
@@ -14,7 +12,7 @@ const Home = () => {
     }
 
     const gotoCreatePoll = () => {
-        navigate('/create');
+        navigate('/createpoll');
     }
 
   return (

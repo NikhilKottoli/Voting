@@ -1,22 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './History.css';
+import axios from 'axios';
 
 const History = () => {
-  // Dummy data for past polls
-  const pastPolls = [
-    { id: 1, title: "Half Adder And Full Adder", code: "123456", voters: 150, date: "2024-08-15",rating:9 },
-    { id: 2, title: "Best Pizza Topping", code: "789012", voters: 89, date: "2024-08-10",rating:8 },
-    { id: 3, title: "Next Company Outing", code: "345678", voters: 45, date: "2024-08-05",rating:7 },
-    { id: 4, title: "New Office Location", code: "901234", voters: 72, date: "2024-07-30",rating:6 },
-    { id: 5, title: "Annual Budget Allocation", code: "567890", voters: 23, date: "2024-07-25",rating:5 },
-  ];
+  const [polls, setPolls] = useState([]);  // State to store fetched polls
+
+  // Function to fetch past polls
+  const getPastPolls = () => {
+    axios.get('http://localhost:4000/poll/polls')
+      .then((response) => {
+        if (response.status === 200) {
+          setPolls(response.data.polls);  // Store the data in state
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Error fetching polls");
+      });
+  };
+
+  // useEffect to fetch polls on component mount
+  useEffect(() => {
+    getPastPolls();
+  }, []);
 
   return (
     <div className="history-page">
       <main className="main-content">
         <div className="history-container">
-          <h2 className='MainHeading'>Poll History</h2>
+          <h2 className="MainHeading">Poll History</h2>
           <table className="history-table">
             <thead>
               <tr>
@@ -28,15 +40,21 @@ const History = () => {
               </tr>
             </thead>
             <tbody>
-              {pastPolls.map((poll) => (
-                <tr key={poll.id}>
-                  <td>{poll.title}</td>
-                  <td>{poll.code}</td>
-                  <td>{poll.voters}</td>
-                  <td>{poll.date}</td>
-                  <td>{poll.rating}</td>
+              {polls.length > 0 ? (
+                polls.map((poll) => (
+                  <tr key={poll._id}>
+                    <td>{poll.title}</td>
+                    <td>{poll.code}</td>
+                    <td>{poll.voters}</td>
+                    <td>{poll.date}</td>
+                    <td>{poll.rating}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No polls available</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
