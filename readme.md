@@ -30,8 +30,9 @@ npm install
 ```
 3.Start the Server
 ```
-npm run dev
+npm run dev (Does Not work on NITK internet)
 ```
+
 
 
 # GO TO http://localhost:3000 to open the application
