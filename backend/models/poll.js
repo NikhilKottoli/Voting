@@ -16,6 +16,16 @@ const pollSchema=new mongoose.Schema({
     votingOn:{
         type:Boolean,
         default:true
+    },
+    questions:[
+        {
+            question:String
+        }
+       ],
+    createdBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
     }
     
 },{timestamps:true});

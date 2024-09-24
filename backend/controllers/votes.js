@@ -23,15 +23,20 @@ const findPollByCode = async (req, res) => {
 
 const submitVote = async (req, res) => {
     try {
-        const { pollId, marks, feedback } = req.body;
+        const { pollId, marks, feedback,questionAnswer } = req.body;
 
         const poll = await Poll.findById(pollId);
         if (!poll) {
             return res.status(404).json({ error: 'Poll not found' });
         }
 
-        const vote = await Vote.create({ pollId: poll._id, marks, feedback });
-        return res.status(201).json({ vote });
+        const vote = await Vote.create({ pollId: poll._id, marks, feedback,
+          questionAnswer,
+          //userId: req.user._id
+         });
+        return res.status(201).json({ 
+            message: 'Vote submitted successfully'
+         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

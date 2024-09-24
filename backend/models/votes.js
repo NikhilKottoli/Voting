@@ -12,7 +12,17 @@ const voteSchema = new mongoose.Schema({
     },
     feedback: {
         type: String
-    }
+    },
+    // userId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // }
+    questionAnswer: [
+        {
+            answer: String
+        }
+    ]
 }, { timestamps: true });
 
 const Vote = mongoose.model('Vote', voteSchema);

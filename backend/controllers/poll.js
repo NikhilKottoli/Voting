@@ -2,13 +2,15 @@ const Poll = require('../models/poll');
 
 const createPoll = async (req, res) => {
     try {
-        const { title,  description } = req.body;
+        const { title,  description ,questions} = req.body;
         const code = Math.floor(Math.random()*10000000).toString().slice(0,6);
 
         const poll = new Poll({
             title,
             code,
-            description
+            description,
+            createdBy: req.user._id,
+            questions
         });
         await poll.save();
         res.status(201).json({ poll });
@@ -42,11 +44,15 @@ const getPoll = async (req, res) => {
 
 const updatePoll = async (req, res) => {
     try {
-        const {title, description,id} = req.body;
+        const {title, description,id,questions} = req.body;
         const poll = await Poll.findById(id);
+        if(poll.createdBy.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ error: 'You are not authorized to update this poll' });
+        }
         if (poll) {
             poll.title = title;
             poll.description = description;
+            poll.questions = questions;
             await poll.save();
             return res.status(200).json({ poll });
         } 
@@ -60,8 +66,14 @@ const updatePoll = async (req, res) => {
 const deletePoll = async (req, res) => {
     try {
         const { id } = req.body;
-        await Poll.findByIdAndDelete(id);
-        res.status(204).json({
+        const poll = await Poll.findById(id);
+        if(poll.createdBy.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ error: 'You are not authorized to delete this poll' });
+        }
+        if(poll) {
+            await Poll.findByIdAndDelete(id);
+        }
+        return res.status(204).json({
             message: 'Poll deleted successfully'
         });
     } catch (error) {

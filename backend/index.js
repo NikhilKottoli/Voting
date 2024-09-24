@@ -5,6 +5,7 @@ const cors=require('cors');
 const connectDB=require('./config/db.js');
 const pollRoutes=require('./routes/poll.routes');
 const voteRoutes=require('./routes/votes.routes.js');
+const userRoutes=require('./routes/user.routes.js');
 
 
 
@@ -20,6 +21,7 @@ app.get('/',(req,res)=>{
 });
 app.use('/poll',pollRoutes);
 app.use('/vote',voteRoutes);
+app.use('/user',userRoutes);
 
 
 app.listen(4000,async()=>{
