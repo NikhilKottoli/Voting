@@ -1,7 +1,7 @@
 # Process to Setup.
  Run Command
  ```
- git clone https://github.com/alphaplayerofdooms/Voting.git
+ git clone https://github.com/NikhilKottoli/Voting.git
  ```
 
 # FRONTEND SETUP:
