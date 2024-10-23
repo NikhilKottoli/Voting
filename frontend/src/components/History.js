@@ -11,7 +11,7 @@ const History = () => {
   // Function to fetch past polls
   const getPastPolls = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/poll/getpolls');
+      const response = await axios.get('https://voting-n7ug.onrender.com/poll/getpolls');
       if (response.status === 200) {
         const fetchedPolls = response.data.polls;
         console.log('Fetched polls:', fetchedPolls);
@@ -29,7 +29,7 @@ const History = () => {
   const fetchVotes = async (polls) => {
     try {
       const votesData = await Promise.all(polls.map(async (poll) => {
-        const response = await axios.get('http://localhost:4000/vote/avgMarks', {
+        const response = await axios.get('https://voting-n7ug.onrender.com/vote/avgMarks', {
           params: { id: poll._id }
         });
         return { pollId: poll._id, avg: response.data.avg }; // Store the avg value

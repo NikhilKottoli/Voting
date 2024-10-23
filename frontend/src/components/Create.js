@@ -13,7 +13,7 @@ const CreatePoll = () => {
     e.preventDefault();
     if (pollTitle && pollDescription) {
       try {
-        const response = await axios.post('http://localhost:4000/poll/createpoll', {
+        const response = await axios.post('https://voting-n7ug.onrender.com/poll/createpoll', {
           title: pollTitle,
           description: pollDescription,
         });

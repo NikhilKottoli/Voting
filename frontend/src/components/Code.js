@@ -10,7 +10,7 @@ const EnterCode = () => {
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:4000/vote/findpoll?code=${code}`)
+    axios.get(`https://github.com/NikhilKottoli/Voting.git/vote/findpoll?code=${code}`)
       .then((res) => {
         console.log(res.data);
         if (res.data && res.data.poll) {
@@ -28,7 +28,7 @@ const EnterCode = () => {
   const handleVoteSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the vote to your server
-    axios.post(`http://localhost:4000/vote/submitvote`, {
+    axios.post(`https://voting-n7ug.onrender.com/vote/submitvote`, {
       pollId: pollData._id,
       marks: score,
       feedback: feedback

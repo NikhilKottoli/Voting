@@ -16,7 +16,7 @@ const PollDetails = () => {
     if (poll) {
       const fetchPollStats = async () => {
         try {
-          const response = await axios.get('http://localhost:4000/vote/getstats', {
+          const response = await axios.get('https://voting-n7ug.onrender.com/vote/getstats', {
             params: { id: poll._id }
           });
           const stats = response.data.stats[0];
@@ -29,7 +29,7 @@ const PollDetails = () => {
 
       const fetchFeedbacks = async () => {
         try {
-          const response = await axios.get('http://localhost:4000/vote/getvotes', {
+          const response = await axios.get('https://voting-n7ug.onrender.com/vote/getvotes', {
             params: { id: poll._id }
           });
           setFeedbacks(response.data.votes);
@@ -49,7 +49,7 @@ const PollDetails = () => {
 
   const ChangeStatus = async () => {
     try {
-      const response = await axios.put('http://localhost:4000/poll/stopvoting', null, {
+      const response = await axios.put('https://voting-n7ug.onrender.com/poll/stopvoting', null, {
         params: { id: poll._id }
       });
       navigate(0);
