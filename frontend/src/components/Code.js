@@ -10,7 +10,7 @@ const EnterCode = () => {
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-    axios.get(`https://github.com/NikhilKottoli/Voting.git/vote/findpoll?code=${code}`)
+    axios.get(`https://voting-n7ug.onrender.com/vote/findpoll?code=${code}`)
       .then((res) => {
         console.log(res.data);
         if (res.data && res.data.poll) {

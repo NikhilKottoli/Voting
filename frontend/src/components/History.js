@@ -24,7 +24,7 @@ const History = () => {
       alert("Error fetching polls");
     }
   };
-
+//https://voting-n7ug.onrender.com
   // Function to fetch votes
   const fetchVotes = async (polls) => {
     try {
