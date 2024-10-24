@@ -7,6 +7,13 @@ const EnterCode = () => {
   const [pollData, setPollData] = useState(null);
   const [score, setScore] = useState(5);
   const [feedback, setFeedback] = useState("Enter Feedback");
+  const [hasVoted, setHasVoted] = useState(false);
+
+  // Function to check if the user has already voted for this poll
+  const checkIfVoted = (pollId) => {
+    const votedPolls = JSON.parse(localStorage.getItem('votedPolls')) || [];
+    return votedPolls.includes(pollId);
+  };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +22,9 @@ const EnterCode = () => {
         console.log(res.data);
         if (res.data && res.data.poll) {
           setPollData(res.data.poll);
+          if (checkIfVoted(res.data.poll._id)) {
+            setHasVoted(true);
+          }
         } else {
           setFeedback({ type: 'error', message: 'Invalid poll data received.' });
         }
@@ -27,7 +37,11 @@ const EnterCode = () => {
 
   const handleVoteSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the vote to your server
+    if (checkIfVoted(pollData._id)) {
+      setFeedback({ type: 'error', message: 'You have already voted for this poll.' });
+      return;
+    }
+
     axios.post(`https://voting-n7ug.onrender.com/vote/submitvote`, {
       pollId: pollData._id,
       marks: score,
@@ -35,6 +49,13 @@ const EnterCode = () => {
     })
       .then((res) => {
         setFeedback({ type: 'success', message: 'Vote submitted successfully!' });
+
+        // Store the poll ID in localStorage to prevent voting again
+        const votedPolls = JSON.parse(localStorage.getItem('votedPolls')) || [];
+        votedPolls.push(pollData._id);
+        localStorage.setItem('votedPolls', JSON.stringify(votedPolls));
+
+        setHasVoted(true);  // Update state to reflect that the user has voted
       })
       .catch((err) => {
         console.error(err);
@@ -67,28 +88,32 @@ const EnterCode = () => {
             <>
               <h2>{pollData.title || 'Untitled Poll'}</h2>
               <p>{pollData.description || 'No description available.'}</p>
-              <form onSubmit={handleVoteSubmit} className="code-form">
-                <div className="score-container">
-                  <label htmlFor="score-slider">Your Rating (out of 10): {score}</label>
-                  <input
-                    id="score-slider"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value={score}
-                    onChange={(e) => setScore(parseInt(e.target.value))}
-                    className="score-slider"
+              {hasVoted ? (
+                <p>You have already voted for this poll.</p>
+              ) : (
+                <form onSubmit={handleVoteSubmit} className="code-form">
+                  <div className="score-container">
+                    <label htmlFor="score-slider">Your Rating (out of 10): {score}</label>
+                    <input
+                      id="score-slider"
+                      type="range"
+                      min="0"
+                      max="10"
+                      value={score}
+                      onChange={(e) => setScore(parseInt(e.target.value))}
+                      className="score-slider"
+                    />
+                  </div>
+                  <textarea
+                    value={feedback || ''}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    placeholder="Enter Feedback"
+                    className="feedback-input"
+                    required
                   />
-                </div>
-                <textarea
-                  value={feedback || ''}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  placeholder="Enter Feedback"
-                  className="feedback-input"
-                  required
-                />
-                <button type="submit" className="submit-btn" >Submit Vote</button>
-              </form>
+                  <button type="submit" className="submit-btn">Submit Vote</button>
+                </form>
+              )}
             </>
           )}
         </div>

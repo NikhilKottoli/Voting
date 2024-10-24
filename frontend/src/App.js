@@ -19,6 +19,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/entercode" element={<EnterCode />} />
           <Route path="/createpoll" element={<CreatePoll />} />
+          
           <Route path="/history" element={<History />} />
           <Route path="/polldetails" element={<PollDetails />} />
           <Route path="/" element={<AboutUs />} />
