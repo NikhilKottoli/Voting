@@ -5,7 +5,8 @@ const Navbar = () => (
       <div className="container">
         <span className="logo">VoteNow</span>
         <div className="nav-links flex gap-10">
-          <a href="/">Home</a>
+          <a href='/'>About Us</a>
+          <a href="/home">Home</a>
           <a href='/history'>History</a>
         </div>
       </div>

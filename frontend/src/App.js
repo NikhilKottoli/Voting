@@ -8,6 +8,7 @@ import CreatePoll from './components/Create';
 import History from './components/History';
 import Navbar from './components/navbar/Navbar';
 import PollDetails from './components/PollDetails';
+import AboutUs from './components/AboutUs';
 
 function App() {
   return (
@@ -15,11 +16,12 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/entercode" element={<EnterCode />} />
           <Route path="/createpoll" element={<CreatePoll />} />
           <Route path="/history" element={<History />} />
           <Route path="/polldetails" element={<PollDetails />} />
+          <Route path="/" element={<AboutUs />} />
         </Routes>
       </div>
       <footer className="footer">
